@@ -18,17 +18,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
 Route::get('/dashboard',function (){
     if (auth()->guard('user')->check()){
         return Redirect::route('userdashboard');
     }elseif (auth()->guard('admin')->check()){
-        return Redirect::route('admin.dashboard');
+        return Redirect::route('admindashboard');
     }
 })
     ->middleware('auth:user,admin')
